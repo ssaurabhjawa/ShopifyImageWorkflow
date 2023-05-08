@@ -55,7 +55,7 @@ count_label.grid(row=0, column=0, padx=5, pady=10, sticky="sw")
 
 # Create button to select folder
 select_folder_button = tk.Button(root, text="Select Image Folder", command=select_folder)
-select_folder_button.grid(row=0, column=1, padx=5, pady=5, sticky='sw')
+select_folder_button.grid(row=1, column=1, padx=5, pady=5, sticky='sw')
 
 #==================================================================
 #                           Listbox
@@ -113,7 +113,7 @@ def refresh_images():
 
 
 refresh_button = tk.Button(root, text="Refresh", width = 15, command=refresh_images)
-refresh_button.grid(row=0, column=1, padx=5, pady=5, sticky='se')
+refresh_button.grid(row=1, column=1, padx=5, pady=5, sticky='se')
 
 
 
@@ -122,7 +122,7 @@ refresh_button.grid(row=0, column=1, padx=5, pady=5, sticky='se')
 #==================================================================
 
 refresh_button = tk.Button(root, text="Segregate Images", width = 15, command=segregate_images_by_aspect_ratio)
-refresh_button.grid(row=0, column=1, padx=5, pady=5, sticky='s')
+refresh_button.grid(row=1, column=1, padx=5, pady=5, sticky='s')
 
 
 
@@ -131,7 +131,7 @@ refresh_button.grid(row=0, column=1, padx=5, pady=5, sticky='s')
 #==================================================================
 
 artist_label = tk.Label(root, text="Artist:")
-artist_label.grid(row=3, column=1, padx=5, pady=5,sticky='n')
+artist_label.grid(row=4, column=1, padx=5, pady=5,sticky='n')
 # Create the dropdown menu
 selected_artist = tk.StringVar(root, value=list(artist_royalty_dict.keys())[0])
 artist_dropdown = ttk.Combobox(root, textvariable=selected_artist, values=list(artist_royalty_dict.keys()))
@@ -139,7 +139,7 @@ artist_dropdown = ttk.Combobox(root, textvariable=selected_artist, values=list(a
 # Configure the dropdown menu
 artist_dropdown.config(state="readonly", width=15)
 # Display the dropdown menu using grid
-artist_dropdown.grid(row=3, column=1,padx=5, pady=5, sticky='s')
+artist_dropdown.grid(row=4, column=1,padx=5, pady=5, sticky='s')
 
 #==================================================================
 #                           Product Type Dropdown
@@ -150,8 +150,8 @@ product_type_label = tk.Label(root,  text="Product Type:")
 product_type_dropdown = ttk.Combobox(root, textvariable=product_type_var, values=product_type_options)
 product_type_dropdown.config(width=15)
 
-product_type_label.grid(row=3, column=1, padx=5, pady=5, sticky="nw")
-product_type_dropdown.grid(row=3, column=1, padx=5, pady=5, sticky="sw")
+product_type_label.grid(row=4, column=1, padx=5, pady=5, sticky="nw")
+product_type_dropdown.grid(row=4, column=1, padx=5, pady=5, sticky="sw")
 
 root.rowconfigure(3, minsize=70)
 
@@ -161,8 +161,8 @@ image_position_var = tk.IntVar(value=0)
 
 title_label = tk.Label(root, text="Title:")
 title_entry = tk.Entry(root, textvariable=title_var, width=100)
-title_label.grid(row=2, column=0, padx=5, pady=1, sticky="e")
-title_entry.grid(row=2, column=1, columnspan=2, padx=5, pady=1, sticky="w")
+title_label.grid(row=3, column=0, padx=5, pady=1, sticky="e")
+title_entry.grid(row=3, column=1, columnspan=2, padx=5, pady=1, sticky="w")
 
 
 # Create the renamed_listbox
@@ -260,7 +260,7 @@ def rename_file():
 
 # Create new Listbox widget to hold current selection
 current_selection_listbox = tk.Listbox(root, height=1, width=100)
-current_selection_listbox.grid(row=1, column=1, padx=5, pady=5, sticky="w")
+current_selection_listbox.grid(row=2, column=1, padx=5, pady=5, sticky="w")
 
 def update_current_selection(event):
     # Get selected file name
@@ -278,7 +278,7 @@ current_selection_listbox.bind('<<ListboxSelect>>', rename_file)
 
 # "Rename File" and binds it to the function 'rename_file'.
 rename_button = tk.Button(root, text="<--Rename Me", command=rename_file)
-rename_button.grid(row=1, column=2, padx=5, pady=1, sticky="w")
+rename_button.grid(row=2, column=2, padx=5, pady=1, sticky="w")
 
 # Listbox widget to display the output image files and set its width
 output_listbox = tk.Listbox(root, width=70,height=20)
@@ -462,7 +462,7 @@ def process_images():
 
 
 process_button = tk.Button(root, text="Process Images", command=process_images)
-process_button.grid(row=6, column=6, padx=10, pady=10)
+process_button.grid(row=6, column=3, padx=10, pady=10)
 
 
 
