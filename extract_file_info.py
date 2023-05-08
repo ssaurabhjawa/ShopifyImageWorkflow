@@ -1,5 +1,5 @@
 import os
-from pricing_dict import productType_dict, artist_royalty_dict
+from pricing_dict import artist_royalty_dict
 
 product_sizes = {
     "acrylic": {
@@ -64,12 +64,7 @@ product_sizes = {
     },
 }
 
-# artist_prices = {
-#     "ShutterStock": 257,
-#     "Artist 1": 1.1,
-#     "Artist 2": 1.1,
-#     "Artist 3": 1.1
-# }
+
 
 
 def extract_file_info(file_path):

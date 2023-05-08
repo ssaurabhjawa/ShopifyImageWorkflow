@@ -1,8 +1,7 @@
 import os
 import uuid
 from dotenv import load_dotenv
-from pricing_dict import productType_dict, artist_royalty_dict
-from assets.calculate_price import calculate_price
+from pricing_dict import artist_royalty_dict
 from extract_file_info import extract_file_info
 import cloudinary
 import cloudinary.uploader

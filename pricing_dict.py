@@ -1,10 +1,3 @@
-productType_dict = {
-    "Canvas": 500,
-    "Poster": 500,
-    "Acrylic": 500,
-    "Wall Paper": 750,
-}
-
 artist_royalty_dict = {
     "ShutterStock": 257,
     "OBL Display": 1.0,
