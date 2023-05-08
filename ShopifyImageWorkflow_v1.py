@@ -85,7 +85,7 @@ def show_image(event):
 image_listbox.bind('<<ListboxSelect>>', show_image)
 
 # Define input variables
-product_type_options = ["Canvas", "Acrylic", "Mugs", "T-Shirts","Wall Paper", "Poster", "NoteBook", "ArtBook"]
+product_type_options = ["Canvas", "Acrylic", "Wall Paper", "Poster", "Notebook", "Pre-Sketchbook", "Greeting Card", "Mugs", "Stickers"]
 product_type_var = tk.StringVar(root, product_type_options[0])
 
 #==================================================================
@@ -146,9 +146,9 @@ artist_dropdown.grid(row=3, column=1,padx=5, pady=5, sticky='s')
 #==================================================================
 
 # Create the label and dropdown for the product type dropdown
-product_type_label = tk.Label(root, text="Product Type:")
+product_type_label = tk.Label(root,  text="Product Type:")
 product_type_dropdown = ttk.Combobox(root, textvariable=product_type_var, values=product_type_options)
-product_type_dropdown.config(width=10)
+product_type_dropdown.config(width=15)
 
 product_type_label.grid(row=3, column=1, padx=5, pady=5, sticky="nw")
 product_type_dropdown.grid(row=3, column=1, padx=5, pady=5, sticky="sw")

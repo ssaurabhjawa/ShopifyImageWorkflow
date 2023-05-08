@@ -86,26 +86,25 @@ product_sizes = {
 }
 
 stationary = {
-    "gifts": {
-        "Notebook": [
-            {"size": "A5 - Portrait", "price": 25},
-            {"size": "A4 - Portrait", "price": 25}
-        ],
-        "Pre-Sketchbook": [
-            {"size": "A4 - Portrait", "price": 25}
-        ],
-        "Greeting Card": [
-            {"size": "A5", "price": 25}
-        ],
-        "Mugs": [
-            {"size": "Standard", "price": 35}
-        ],
-        "Stickers": [
-            {"size": "Set of 5 Different Stickers", "price": 25},
-            {"size": "5cm x 5cm", "price": 50}
-        ]
-    }
+    "Notebook": [
+        {"size": "A5 - Portrait", "price": 25},
+        {"size": "A4 - Portrait", "price": 25}
+    ],
+    "Pre-Sketchbook": [
+        {"size": "A4 - Portrait", "price": 25}
+    ],
+    "Greeting Card": [
+        {"size": "A5", "price": 25}
+    ],
+    "Mugs": [
+        {"size": "Standard", "price": 35}
+    ],
+    "Stickers": [
+        {"size": "Set of 5 Different Stickers", "price": 25},
+        {"size": "5cm x 5cm", "price": 50}
+    ]
 }
+
 
 
 
@@ -188,11 +187,33 @@ def extract_option1Value_wallArt(file_info, product_type, orientation):
             if abs(aspect_ratio - (width_cm / height_cm)) <= aspect_ratio_tolerance:
                 option1_values.append(dimensions['size'])
                 option1_prices.append(dimensions['price'])
+    elif product_type.lower() in stationary and not orientation:
+        option1_values = []
+        option1_prices = []
+        for item in stationary[product_type.lower()]:
+            option1_values.append(item['size'])
+            option1_prices.append(item['price'])
     else:
         option1_values = []
         option1_prices = []
 
     return option1_values, option1_prices
+
+
+def extract_price_stationary(file_info, product_type):
+    if product_type.lower() in stationary:
+        option1_values = []
+        option1_prices = []
+        for item in stationary[product_type.lower()]:
+            option1_values.append(item['size'])
+            option1_prices.append(item['price'])
+    else:
+        option1_values = []
+        option1_prices = []
+
+    return option1_values, option1_prices
+
+
 
 def test_extract_file_info():
     file_path = "1.5--d2c9bf--canvas--Sunset--1--Artist 1.jpg"
