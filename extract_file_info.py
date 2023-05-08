@@ -157,6 +157,7 @@ def extract_file_info(file_path):
         file_info["option1_prices"] = option1_prices
     return file_info
 
+
 def extract_option1Value_wallArt(file_info, product_type, orientation):
     # Derive orientation from aspect ratio
     aspect_ratio = file_info['aspect_ratio']
@@ -172,19 +173,9 @@ def extract_option1Value_wallArt(file_info, product_type, orientation):
         option1_values = []
         option1_prices = []
         for dimensions in product_sizes[product_type.lower()][orientation]:
-            option1_values.append(dimensions['size'])
-            option1_prices.append(dimensions['price'])
-    elif product_type.lower() == "canvas" and orientation in product_sizes[product_type.lower()]:
-        option1_values = []
-        option1_prices = []
-        for dimensions in product_sizes[product_type.lower()][orientation]:
-            size_parts = dimensions['size'].split('x')
-            width_cm = float(size_parts[0])
-            height_cm = float(size_parts[1])
-            aspect_ratio_tolerance = dimensions['ratio'] * 0.01
-            aspect_ratio_min = dimensions['ratio'] - aspect_ratio_tolerance
-            aspect_ratio_max = dimensions['ratio'] + aspect_ratio_tolerance
-            if abs(aspect_ratio - (width_cm / height_cm)) <= aspect_ratio_tolerance:
+            option_aspect_ratio = dimensions['ratio']
+            # Check if the aspect ratio of the canvas size matches the aspect ratio of the image
+            if abs(aspect_ratio - option_aspect_ratio) < 0.00001:
                 option1_values.append(dimensions['size'])
                 option1_prices.append(dimensions['price'])
     elif product_type.lower() in stationary and not orientation:
@@ -198,6 +189,50 @@ def extract_option1Value_wallArt(file_info, product_type, orientation):
         option1_prices = []
 
     return option1_values, option1_prices
+
+
+
+# def extract_option1Value_wallArt(file_info, product_type, orientation):
+#     # Derive orientation from aspect ratio
+#     aspect_ratio = file_info['aspect_ratio']
+#     if aspect_ratio < 1:
+#         orientation = "Portrait"
+#     elif aspect_ratio > 1:
+#         orientation = "Landscape"
+#     else:
+#         orientation = "Square"
+
+#     # Define the option values based on the product type and orientation
+#     if product_type.lower() in ["canvas", "poster", "acrylic", "wallpaper"] and orientation in product_sizes[product_type.lower()]:
+#         option1_values = []
+#         option1_prices = []
+#         for dimensions in product_sizes[product_type.lower()][orientation]:
+#             option1_values.append(dimensions['size'])
+#             option1_prices.append(dimensions['price'])
+#     elif product_type.lower() == "canvas" and orientation in product_sizes[product_type.lower()]:
+#         option1_values = []
+#         option1_prices = []
+#         for dimensions in product_sizes[product_type.lower()][orientation]:
+#             size_parts = dimensions['size'].split('x')
+#             width_cm = float(size_parts[0])
+#             height_cm = float(size_parts[1])
+#             aspect_ratio_tolerance = dimensions['ratio'] * 0.01
+#             aspect_ratio_min = dimensions['ratio'] - aspect_ratio_tolerance
+#             aspect_ratio_max = dimensions['ratio'] + aspect_ratio_tolerance
+#             if abs(aspect_ratio - (width_cm / height_cm)) <= aspect_ratio_tolerance:
+#                 option1_values.append(dimensions['size'])
+#                 option1_prices.append(dimensions['price'])
+#     elif product_type.lower() in stationary and not orientation:
+#         option1_values = []
+#         option1_prices = []
+#         for item in stationary[product_type.lower()]:
+#             option1_values.append(item['size'])
+#             option1_prices.append(item['price'])
+#     else:
+#         option1_values = []
+#         option1_prices = []
+
+#     return option1_values, option1_prices
 
 
 def extract_price_stationary(file_info, product_type):
