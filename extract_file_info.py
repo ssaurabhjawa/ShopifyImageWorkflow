@@ -62,7 +62,51 @@ product_sizes = {
             {"size": "70x50cm", "ratio": 1.4, "price": 175}
         ]
     },
+    "Poster": {
+        "Portrait": [
+            {"size": "16x12in", "ratio": 0.75, "price": 18.58},
+            {"size": "24x18in", "ratio": 0.75, "price": 41.81},
+            {"size": "40x30in", "ratio": 0.75, "price": 116.13}
+        ],
+        "Landscape": [
+            {"size": "12x16in", "ratio": 1.33, "price": 18.58},
+            {"size": "18x24in", "ratio": 1.33, "price": 41.81},
+            {"size": "30x40in", "ratio": 1.33, "price": 116.13}
+        ]
+    },
+    "wallpaper": {
+        "Portrait": [
+            {"size": "60x120cm", "ratio": 0.5, "price": 180},
+            {"size": "60x250cm", "ratio": 0.24, "price": 375},
+            {"size": "60x305cm", "ratio": 0.2, "price": 457.5},
+            {"size": "120x250cm", "ratio": 0.48, "price": 750},
+            {"size": "120x305cm", "ratio": 0.39, "price": 915}
+        ]
+    },
 }
+
+stationary = {
+    "gifts": {
+        "Notebook": [
+            {"size": "A5 - Portrait", "price": 25},
+            {"size": "A4 - Portrait", "price": 25}
+        ],
+        "Pre-Sketchbook": [
+            {"size": "A4 - Portrait", "price": 25}
+        ],
+        "Greeting Card": [
+            {"size": "A5", "price": 25}
+        ],
+        "Mugs": [
+            {"size": "Standard", "price": 35}
+        ],
+        "Stickers": [
+            {"size": "Set of 5 Different Stickers", "price": 25},
+            {"size": "5cm x 5cm", "price": 50}
+        ]
+    }
+}
+
 
 
 
@@ -138,7 +182,7 @@ def extract_option1Value_wallArt(file_info, product_type, orientation):
             size_parts = dimensions['size'].split('x')
             width_cm = float(size_parts[0])
             height_cm = float(size_parts[1])
-            aspect_ratio_tolerance = dimensions['ratio'] * 0.02
+            aspect_ratio_tolerance = dimensions['ratio'] * 0.01
             aspect_ratio_min = dimensions['ratio'] - aspect_ratio_tolerance
             aspect_ratio_max = dimensions['ratio'] + aspect_ratio_tolerance
             if abs(aspect_ratio - (width_cm / height_cm)) <= aspect_ratio_tolerance:
