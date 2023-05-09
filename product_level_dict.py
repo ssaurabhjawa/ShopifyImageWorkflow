@@ -130,6 +130,7 @@ def product_level_dictionary(image_filename, output_folder_path):
         "Compare At Price / International": "",
         "Status": "active",
         "image_position": image_position,
+        "Variant Inventory Policy": "deny",
          }
     return image_dict
 

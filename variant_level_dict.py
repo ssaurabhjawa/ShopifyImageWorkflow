@@ -95,6 +95,7 @@ def variant_level_dictionary(image_filename, output_folder_path, option, price,i
         "Compare At Price / International": "",
         "Status": "active",
         "image_position": image_position,
+        "Variant Inventory Policy": "deny",
     }
     
     return image_dict
