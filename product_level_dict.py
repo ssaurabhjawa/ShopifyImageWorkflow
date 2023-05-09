@@ -114,6 +114,9 @@ def product_level_dictionary(image_filename, output_folder_path):
         "Published": "TRUE",
         "Option1 Name": "Size",
         "Option1 Value":option1_values[0],
+        "Variant Inventory Qty":10,
+        "Variant Inventory Policy": "deny",
+        "Variant Fulfillment Service":"manual",
         "Variant Price":option1_prices[0] if option1_prices else "",
         "Image Src": get_image_url_from_cloudinary(public_id),  # Use the Cloudinary URL
         "Image Alt Text": title,
@@ -129,9 +132,9 @@ def product_level_dictionary(image_filename, output_folder_path):
         "Price / International": "",
         "Compare At Price / International": "",
         "Status": "active",
-        "image_position": image_position,
-        "Variant Inventory Policy": "deny",
-         }
+        "Image Position": image_position,
+
+    }
     return image_dict
 
 # def test_product_level_dictionary(output_folder_path):

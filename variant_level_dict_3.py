@@ -53,10 +53,21 @@ def variant_level_dictionary_3(image_filename, output_folder_path):
         "Handle":uuid ,
         "Title": title,
         "Body (HTML)": "",
+        "Vendor": artist,
         "Product Category": "",
         "Type": product_type,
         "Tags": "Miscellaneous",
         "Published": "TRUE",
+        "Option1 Name": "N/A",
+        "Option1 Value":"N/A",
+        "Option2 Name": "",
+        "Option2 Value": "",
+        "Option3 Name": "",
+        "Option3 Value": "",
+        "Variant Inventory Qty":10,
+        "Variant Inventory Policy": "deny",
+        "Variant Fulfillment Service":"manual",
+        "Variant Price": 0,
         "Image Src": get_image_url_from_cloudinary(public_id),  # Use the Cloudinary URL
         "Image Alt Text": title,
         "Gift Card": "FALSE",
@@ -71,8 +82,10 @@ def variant_level_dictionary_3(image_filename, output_folder_path):
         "Price / International": "",
         "Compare At Price / International": "",
         "Status": "active",
-        "image_position": image_position,
+        "Image Position": image_position,
+        "Variant Inventory Qty":"10",
         "Variant Inventory Policy": "deny",
+        "Variant Fulfillment Service":"manual",
     }
     
     return image_dict

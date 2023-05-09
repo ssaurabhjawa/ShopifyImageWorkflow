@@ -34,6 +34,9 @@ def create_img_dictionary(image_filename):
         "Option2 Value": "",
         "Option3 Name": "",
         "Option3 Value": "",
+        "Variant Inventory Qty":10,
+        "Variant Inventory Policy": "deny",
+        "Variant Fulfillment Service":"manual",
         "Image Src": "",
         "Image Alt Text": title,
         "Gift Card": "FALSE",
@@ -48,7 +51,7 @@ def create_img_dictionary(image_filename):
         "Price / International": "",
         "Compare At Price / International": "",
         "Status": "active",
-        "image_position": image_position,
+        "Image Position": image_position,
          }
 
     return image_dict

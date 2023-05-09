@@ -79,7 +79,10 @@ def variant_level_dictionary(image_filename, output_folder_path, option, price,i
         "Option2 Value": "",
         "Option3 Name": "",
         "Option3 Value": "",
-        "Variant Price":price if price else "",
+        "Variant Inventory Qty":10,
+        "Variant Inventory Policy": "deny",
+        "Variant Fulfillment Service":"manual",
+        "Variant Price":price if price else 0,
         "Image Src": image_url,  # Use the Shopify URL
         "Image Alt Text": title,
         "Gift Card": "FALSE",
@@ -94,8 +97,10 @@ def variant_level_dictionary(image_filename, output_folder_path, option, price,i
         "Price / International": "",
         "Compare At Price / International": "",
         "Status": "active",
-        "image_position": image_position,
+        "Image Position": image_position,
+        "Variant Inventory Qty":"10",
         "Variant Inventory Policy": "deny",
+        "Variant Fulfillment Service":"manual",
     }
     
     return image_dict
