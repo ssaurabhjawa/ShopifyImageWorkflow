@@ -22,7 +22,18 @@ def segregate_images_by_aspect_ratio():
     os.makedirs(os.path.join(folder_path, "1.25"), exist_ok=True)
     os.makedirs(os.path.join(folder_path, "1.4"), exist_ok=True)
 
-    # Iterate through each image file in the folder
+    # Define the aspect ratio thresholds and corresponding folder names
+    aspect_ratio_folders = {
+        0.666666667: "0.666666667",
+        0.75: "0.75",
+        0.80: "0.80",
+        0.714285714: "0.714285714",
+        1: "1",
+        1.25: "1.25",
+        1.333333333: "1.333333333",
+        1.5: "1.5",
+    }
+
     for file_name in os.listdir(folder_path):
         if file_name.endswith(".jpg") or file_name.endswith(".jpeg") or file_name.endswith(".png"):
             file_path = os.path.join(folder_path, file_name)
@@ -36,27 +47,9 @@ def segregate_images_by_aspect_ratio():
                 continue
 
             # Use shutil.move to move the file to the respective aspect ratio folder
-            if aspect_ratio >= 0.666666667:
-                if aspect_ratio < 0.75:
-                    new_file_path = os.path.join(folder_path, "0.666666667", file_name)
-                elif aspect_ratio < 0.8:
-                    new_file_path = os.path.join(folder_path, "0.75", file_name)
-                elif aspect_ratio < 0.714285714:
-                    new_file_path = os.path.join(folder_path, "0.80", file_name)
-                elif aspect_ratio < 1:
-                    new_file_path = os.path.join(folder_path, "0.714285714", file_name)
-                elif aspect_ratio < 1.5:
-                    new_file_path = os.path.join(folder_path, "1", file_name)
-                elif aspect_ratio < 1.333333333:
-                    new_file_path = os.path.join(folder_path, "1.5", file_name)
-                elif aspect_ratio < 1.25:
-                    new_file_path = os.path.join(folder_path, "1.333333333", file_name)
-                elif aspect_ratio < 1.4:
-                    new_file_path = os.path.join(folder_path, "1.25", file_name)
-                else:
-                    new_file_path = os.path.join(folder_path, "1.4", file_name)
+            for threshold in sorted(aspect_ratio_folders.keys()):
+                if aspect_ratio <= threshold:
+                    new_file_path = os.path.join(folder_path, aspect_ratio_folders[threshold], file_name)
+                    shutil.move(file_path, new_file_path)
+                    break
 
-                shutil.move(file_path, new_file_path)
-                print(f"{file_name} moved to {new_file_path}")
-
-    print("Image segregation complete!")
