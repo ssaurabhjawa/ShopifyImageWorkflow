@@ -426,35 +426,97 @@ def write_csv(images_list):
     messagebox.showinfo("CSV Generated", "CSV file generated successfully!")
 
 
+# def process_image():
+#     image_list = []
+#     image_dict = []
+#     image_filename_dict = {}
+#     for filename in os.listdir(output_folder_path):
+#         if filename.endswith(('.jpg', '.jpeg', '.png')):
+#             file_path = os.path.join(output_folder_path, filename)
+#             # Extract image position number from filename
+#             file_parts = filename.split("--")
+#             position = int(file_parts[4])
+#             if position == 1 :
+#                 print(f"file name::{filename}")
+#                 image_dict = product_level_dictionary(filename, output_folder_path)  
+#                 image_list.append(image_dict)         
+#             elif position == 2 :
+#                 file_info = extract_file_info(filename)
+#                 option1_values = file_info["option1_values"][1:]
+#                 option1_prices = file_info["option1_prices"][1:]
+#                 print(option1_values)
+#                 print(option1_prices)
+#                 for i, option in enumerate(option1_values, start=1):
+#                     image_dict = variant_level_dictionary(filename, output_folder_path, option1_values[i-1], option1_prices[i-1], image_filename_dict)
+#                     image_list.append(image_dict)
+#             elif position == 3:
+#             # code for image position 3 and above
+#                 image_dict = variant_level_dictionary_3(filename, output_folder_path)
+#                 image_list.append(image_dict)
+#             elif position == 4:
+#             # code for image position 3 and above
+#                 image_dict = variant_level_dictionary_3(filename, output_folder_path)
+#                 image_list.append(image_dict)
+#             elif position == 5:
+#             # code for image position 3 and above
+#                 image_dict = variant_level_dictionary_3(filename, output_folder_path)
+#                 image_list.append(image_dict)
+#             elif position == 6:
+#             # code for image position 3 and above
+#                 image_dict = variant_level_dictionary_3(filename, output_folder_path)
+#                 image_list.append(image_dict)
+
+#     return image_list
+
 def process_image():
     image_list = []
-    image_dict = []
     image_filename_dict = {}
+
+    # Define functions to be executed for different image positions
+    def process_image_position_1(filename):
+        print(f"file name::{filename}")
+        return product_level_dictionary(filename, output_folder_path)
+
+    def process_image_position_2(filename):
+        file_info = extract_file_info(filename)
+        option1_values = file_info["option1_values"][1:]
+        option1_prices = file_info["option1_prices"][1:]
+        print(option1_values)
+        print(option1_prices)
+        image_dicts = []
+        for i, option in enumerate(option1_values, start=1):
+            image_dict = variant_level_dictionary(
+                filename, output_folder_path, option1_values[i-1], option1_prices[i-1], image_filename_dict
+            )
+            image_dicts.append(image_dict)
+        return image_dicts
+
+    def process_image_position_3_and_above(filename):
+        return variant_level_dictionary_3(filename, output_folder_path)
+
+    image_position_functions = {
+        1: process_image_position_1,
+        2: process_image_position_2,
+        3: process_image_position_3_and_above,
+        4: process_image_position_3_and_above,
+        5: process_image_position_3_and_above,
+        6: process_image_position_3_and_above,
+        # add more positions and corresponding functions as needed
+    }
+
     for filename in os.listdir(output_folder_path):
-        if filename.endswith(('.jpg', '.jpeg', '.png')):
+        # Get file extension
+        file_ext = os.path.splitext(filename)[1].lower()
+        if file_ext in ('.jpg', '.jpeg', '.png'):
             file_path = os.path.join(output_folder_path, filename)
             # Extract image position number from filename
-            file_parts = filename.split("--")
-            position = int(file_parts[4])
-            if position == 1 :
-                print(f"file name::{filename}")
-                image_dict = product_level_dictionary(filename, output_folder_path)  
-                image_list.append(image_dict)         
-            elif position == 2 :
-                file_info = extract_file_info(filename)
-                option1_values = file_info["option1_values"][1:]
-                option1_prices = file_info["option1_prices"][1:]
-                print(option1_values)
-                print(option1_prices)
-                for i, option in enumerate(option1_values, start=1):
-                    image_dict = variant_level_dictionary(filename, output_folder_path, option1_values[i-1], option1_prices[i-1], image_filename_dict)
-                    image_list.append(image_dict)
-            elif position > 2:
-            # code for image position 3 and above
-                image_dict = variant_level_dictionary_3(filename, output_folder_path)
-                image_list.append(image_dict)
+            position = int(filename.split("--")[4])
+            # Execute the corresponding function for the image position
+            image_dicts = image_position_functions[position](filename)
+            image_list.extend(image_dicts)
 
     return image_list
+
 
 # Call process_image function when the "Process Images" button is clicked
 def process_images():
