@@ -6,11 +6,14 @@ from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 
 import requests
-import openai_secret_manager
 import openai
 import re
 import os
+from dotenv import load_dotenv
 
+
+# Load environment variables from .env file
+load_dotenv()
 
 #==================================================================
 #              Step 1. Upload to Cloudinary & URL
@@ -19,12 +22,14 @@ from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 
 def upload_to_cloudinary(image_path):
+    load_dotenv()
+
     cloudinary.config(
-    cloud_name = "djqvqmqe2",
-    api_key = "379169473671185",
-    api_secret = "HFgkfTbvvKlD0TGtXmQDLBFBDys",
-    secure = True
-)
+        cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"),
+        api_key = os.getenv("CLOUDINARY_API_KEY"),
+        api_secret = os.getenv("CLOUDINARY_API_SECRET"),
+        secure = os.getenv("CLOUDINARY_SECURE").lower() == "true"
+    )
     response = cloudinary.uploader.upload(image_path, folder="product-images/")
     public_id = response["public_id"]
     print(f"Uploaded image {public_id} to Cloudinary")
@@ -40,8 +45,10 @@ def get_image_url_from_cloudinary(public_id):
 
 def generate_description(prompt, max_length):
     # Get OpenAI API credentials
-    secrets = openai_secret_manager.get_secret("openai")
-    openai.api_key = secrets["api_key"]
+    load_dotenv()
+
+    # Load environment variables from .env file
+    openai.api_key = os.getenv("OPENAI_API_KEY")
 
     # Use the Davinci model to generate the description
     model_engine = "davinci"
@@ -64,25 +71,25 @@ def generate_description(prompt, max_length):
     return description
 
 
-# prompt = "Write a prompt here..."
-# response = requests.post(
-#     "https://api.openai.com/v1/engine/<engine-id>/completions",
-#     headers={
-#         "Content-Type": "application/json",
-#         "Authorization": f"Bearer {API_KEY}",
-#     },
-#     json={
-#         "prompt": prompt,
-#         "max_tokens": 1000,
-#         "temperature": 0.7,
-#     },
-# )
+    prompt = "Write a prompt here..."
+    response = requests.post(
+        "https://api.openai.com/v1/engine/<engine-id>/completions",
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {OPENAI_API_KEY}",
+        },
+        json={
+            "prompt": prompt,
+            "max_tokens": 1000,
+            "temperature": 0.7,
+        },
+    )
 
-# if response.ok:
-#     generated_text = response.json()["choices"][0]["text"]
-#     print(generated_text)
-# else:
-#     print("Failed to generate text:", response.status_code, response.text)
+    if response.ok:
+        generated_text = response.json()["choices"][0]["text"]
+        print(generated_text)
+    else:
+        print("Failed to generate text:", response.status_code, response.text)
 
 
 #==================================================================
