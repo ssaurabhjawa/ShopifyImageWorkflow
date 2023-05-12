@@ -119,24 +119,29 @@ refresh_button.grid(row=1, column=1, padx=5, pady=5, sticky='se')
 #                          Cloudinary Folder
 #==================================================================
 import cloudinary
+from cloudinary import api as cloudinary_api
 from cloudinary.utils import cloudinary_url
+import time
+from dotenv import load_dotenv
 
 # Create a folder in Cloudinary when the application starts
 def create_cloudinary_folder():
     load_dotenv()
 
     cloudinary.config(
-        cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"),
-        api_key = os.getenv("CLOUDINARY_API_KEY"),
-        api_secret = os.getenv("CLOUDINARY_API_SECRET"),
-        secure = os.getenv("CLOUDINARY_SECURE").lower() == "true"
+        cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+        api_key=os.getenv("CLOUDINARY_API_KEY"),
+        api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+        secure=os.getenv("CLOUDINARY_SECURE").lower() == "true"
     )
     timestamp = time.strftime("%H_%M_%S")  # Get the current time in HH_MM_SS format
     folder_name = f"product-images_{timestamp}"  # Append the timestamp to the folder name
-    response = cloudinary.api.create_folder(folder_name)
+    response = cloudinary_api.create_folder(folder_name)
     print(f"Created folder {folder_name} in Cloudinary")
     return folder_name
 
+# Create the Cloudinary folder when the application starts
+Cloudinaryfolder = create_cloudinary_folder()
 
 
 #==================================================================
@@ -461,7 +466,7 @@ def process_image():
             position = int(file_parts[4])
             if position == 1 :
                 print(f"file name::{filename}")
-                image_dict = product_level_dictionary(filename, output_folder_path)  
+                image_dict = product_level_dictionary(filename, output_folder_path,Cloudinaryfolder)  
                 image_list.append(image_dict)         
             elif position == 2 :
                 file_info = extract_file_info(filename)
@@ -470,24 +475,13 @@ def process_image():
                 print(option1_values)
                 print(option1_prices)
                 for i, option in enumerate(option1_values, start=1):
-                    image_dict = variant_level_dictionary(filename, output_folder_path, option1_values[i-1], option1_prices[i-1], image_filename_dict)
+                    image_dict = variant_level_dictionary(filename, output_folder_path, Cloudinaryfolder, option1_values[i-1], option1_prices[i-1], image_filename_dict)
                     image_list.append(image_dict)
             elif position >= 3:
             # code for image position 3 and above
-                image_dict = variant_level_dictionary_3(filename, output_folder_path)
+                image_dict = variant_level_dictionary_3(filename, output_folder_path, Cloudinaryfolder)
                 image_list.append(image_dict)
-            # elif position == 4:
-            # # code for image position 3 and above
-            #     image_dict = variant_level_dictionary_4(filename, output_folder_path)
-            #     image_list.append(image_dict)
-            # elif position == 5:
-            # # code for image position 3 and above
-            #     image_dict = variant_level_dictionary_4(filename, output_folder_path)
-            #     image_list.append(image_dict)
-            # elif position == 6:
-            # # code for image position 3 and above
-            #     image_dict = variant_level_dictionary_4(filename, output_folder_path)
-            #     image_list.append(image_dict)
+
 
     return image_list
 

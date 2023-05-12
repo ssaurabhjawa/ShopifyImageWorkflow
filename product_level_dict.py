@@ -21,7 +21,7 @@ load_dotenv()
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 
-def upload_to_cloudinary(image_path):
+def upload_to_cloudinary(image_path, Cloudinaryfolder):
     load_dotenv()
 
     cloudinary.config(
@@ -30,7 +30,7 @@ def upload_to_cloudinary(image_path):
         api_secret = os.getenv("CLOUDINARY_API_SECRET"),
         secure = os.getenv("CLOUDINARY_SECURE").lower() == "true"
     )
-    response = cloudinary.uploader.upload(image_path, folder="product-images/")
+    response = cloudinary.uploader.upload(image_path, folder=Cloudinaryfolder)
     public_id = response["public_id"]
     print(f"Uploaded image {public_id} to Cloudinary")
     return public_id
@@ -39,66 +39,14 @@ def get_image_url_from_cloudinary(public_id):
     resource = cloudinary.api.resource(public_id)
     return resource["url"]
 
-#==================================================================
-#              Step 2. generate_description
-#==================================================================
-
-def generate_description(prompt, max_length):
-    # Get OpenAI API credentials
-    load_dotenv()
-
-    # Load environment variables from .env file
-    openai.api_key = os.getenv("OPENAI_API_KEY")
-
-    # Use the Davinci model to generate the description
-    model_engine = "davinci"
-    prompt = f"{prompt}\n\nDescription:"
-    response = openai.Completion.create(
-        engine=model_engine,
-        prompt=prompt,
-        max_tokens=max_length,
-        n=1,
-        stop=None,
-        temperature=0.5,
-    )
-
-    # Extract the generated description from the API response
-    description = response.choices[0].text
-    # Clean up the description by removing leading/trailing white space and any extra line breaks
-    description = description.strip()
-    description = re.sub(r'\n+', '\n', description)
-
-    return description
-
-
-    prompt = "Write a prompt here..."
-    response = requests.post(
-        "https://api.openai.com/v1/engine/<engine-id>/completions",
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {OPENAI_API_KEY}",
-        },
-        json={
-            "prompt": prompt,
-            "max_tokens": 1000,
-            "temperature": 0.7,
-        },
-    )
-
-    if response.ok:
-        generated_text = response.json()["choices"][0]["text"]
-        print(generated_text)
-    else:
-        print("Failed to generate text:", response.status_code, response.text)
-
 
 #==================================================================
 #              Product_level_dictionary
 #==================================================================
 
-def product_level_dictionary(image_filename, output_folder_path):
+def product_level_dictionary(image_filename, output_folder_path, Cloudinaryfolder):
     file_path = os.path.join(output_folder_path, image_filename)
-    public_id = upload_to_cloudinary(file_path)
+    public_id = upload_to_cloudinary(file_path, Cloudinaryfolder)
     # Extract image information from filename
     file_info = extract_file_info(image_filename)
     aspect_ratio = file_info["aspect_ratio"]

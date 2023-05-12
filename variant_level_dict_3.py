@@ -16,14 +16,14 @@ from cloudinary.utils import cloudinary_url
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 
-def upload_to_cloudinary(image_path):
+def upload_to_cloudinary(image_path, Cloudinaryfolder):
     cloudinary.config(
     cloud_name = "djqvqmqe2",
     api_key = "379169473671185",
     api_secret = "HFgkfTbvvKlD0TGtXmQDLBFBDys",
     secure = True
 )
-    response = cloudinary.uploader.upload(image_path, folder="product-images/")
+    response = cloudinary.uploader.upload(image_path, folder=Cloudinaryfolder)
     public_id = response["public_id"]
     print(f"Uploaded image {public_id} to Cloudinary")
     return public_id
@@ -36,10 +36,10 @@ def get_image_url_from_cloudinary(public_id):
 #==================================================================
 #                    Variant_level_dictionary 
 #==================================================================
-def variant_level_dictionary_3(image_filename, output_folder_path):
+def variant_level_dictionary_3(image_filename, output_folder_path,Cloudinaryfolder):
     file_path = os.path.join(output_folder_path, image_filename)
     # Extract image information from filename
-    public_id = upload_to_cloudinary(file_path)
+    public_id = upload_to_cloudinary(file_path,Cloudinaryfolder)
     file_info = extract_file_info(image_filename)
     aspect_ratio = file_info["aspect_ratio"]
     uuid = file_info["uuid"]
