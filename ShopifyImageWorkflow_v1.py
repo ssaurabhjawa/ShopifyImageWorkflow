@@ -11,7 +11,7 @@ from PIL import Image
 # import cloudinary.api
 import uuid
 import tkinter.simpledialog
-
+from dotenv import load_dotenv
 
 from pricing_dict import artist_royalty_dict
 from segregate_images import segregate_images_by_aspect_ratio
@@ -123,13 +123,16 @@ from cloudinary.utils import cloudinary_url
 
 # Create a folder in Cloudinary when the application starts
 def create_cloudinary_folder():
+    load_dotenv()
+
     cloudinary.config(
-        cloud_name="djqvqmqe2",
-        api_key="379169473671185",
-        api_secret="HFgkfTbvvKlD0TGtXmQDLBFBDys",
-        secure=True
+        cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"),
+        api_key = os.getenv("CLOUDINARY_API_KEY"),
+        api_secret = os.getenv("CLOUDINARY_API_SECRET"),
+        secure = os.getenv("CLOUDINARY_SECURE").lower() == "true"
     )
-    folder_name = "product-images"  # Specify the desired folder name
+    timestamp = time.strftime("%H_%M_%S")  # Get the current time in HH_MM_SS format
+    folder_name = f"product-images_{timestamp}"  # Append the timestamp to the folder name
     response = cloudinary.api.create_folder(folder_name)
     print(f"Created folder {folder_name} in Cloudinary")
     return folder_name
