@@ -115,6 +115,25 @@ def refresh_images():
 refresh_button = tk.Button(root, text="Refresh", width = 15, command=refresh_images)
 refresh_button.grid(row=1, column=1, padx=5, pady=5, sticky='se')
 
+#==================================================================
+#                          Cloudinary Folder
+#==================================================================
+import cloudinary
+from cloudinary.utils import cloudinary_url
+
+# Create a folder in Cloudinary when the application starts
+def create_cloudinary_folder():
+    cloudinary.config(
+        cloud_name="djqvqmqe2",
+        api_key="379169473671185",
+        api_secret="HFgkfTbvvKlD0TGtXmQDLBFBDys",
+        secure=True
+    )
+    folder_name = "product-images"  # Specify the desired folder name
+    response = cloudinary.api.create_folder(folder_name)
+    print(f"Created folder {folder_name} in Cloudinary")
+    return folder_name
+
 
 
 #==================================================================
@@ -450,22 +469,22 @@ def process_image():
                 for i, option in enumerate(option1_values, start=1):
                     image_dict = variant_level_dictionary(filename, output_folder_path, option1_values[i-1], option1_prices[i-1], image_filename_dict)
                     image_list.append(image_dict)
-            elif position == 3:
+            elif position >= 3:
             # code for image position 3 and above
                 image_dict = variant_level_dictionary_3(filename, output_folder_path)
                 image_list.append(image_dict)
-            elif position == 4:
-            # code for image position 3 and above
-                image_dict = variant_level_dictionary_4(filename, output_folder_path)
-                image_list.append(image_dict)
-            elif position == 5:
-            # code for image position 3 and above
-                image_dict = variant_level_dictionary_4(filename, output_folder_path)
-                image_list.append(image_dict)
-            elif position == 6:
-            # code for image position 3 and above
-                image_dict = variant_level_dictionary_4(filename, output_folder_path)
-                image_list.append(image_dict)
+            # elif position == 4:
+            # # code for image position 3 and above
+            #     image_dict = variant_level_dictionary_4(filename, output_folder_path)
+            #     image_list.append(image_dict)
+            # elif position == 5:
+            # # code for image position 3 and above
+            #     image_dict = variant_level_dictionary_4(filename, output_folder_path)
+            #     image_list.append(image_dict)
+            # elif position == 6:
+            # # code for image position 3 and above
+            #     image_dict = variant_level_dictionary_4(filename, output_folder_path)
+            #     image_list.append(image_dict)
 
     return image_list
 
