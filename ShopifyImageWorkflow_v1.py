@@ -123,6 +123,8 @@ from cloudinary import api as cloudinary_api
 from cloudinary.utils import cloudinary_url
 import time
 from dotenv import load_dotenv
+from datetime import date
+
 
 # Create a folder in Cloudinary when the application starts
 def create_cloudinary_folder():
@@ -134,8 +136,9 @@ def create_cloudinary_folder():
         api_secret=os.getenv("CLOUDINARY_API_SECRET"),
         secure=os.getenv("CLOUDINARY_SECURE").lower() == "true"
     )
+    today = date.today().strftime("%Y-%m-%d")  # Get the current date in YYYY-MM-DD format
     timestamp = time.strftime("%H_%M_%S")  # Get the current time in HH_MM_SS format
-    folder_name = f"product-images_{timestamp}"  # Append the timestamp to the folder name
+    folder_name = f"product-images_{today}_{timestamp}"  # Append the date and timestamp to the folder name
     response = cloudinary_api.create_folder(folder_name)
     print(f"Created folder {folder_name} in Cloudinary")
     return folder_name
