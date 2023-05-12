@@ -12,10 +12,13 @@ def segregate_images_by_aspect_ratio():
     folder_path = askdirectory(title="Select Folder Containing Images to be Segregated")
 
     # Create directory for each aspect ratio
-    os.makedirs(os.path.join(folder_path, "0.80"), exist_ok=True)
-    os.makedirs(os.path.join(folder_path, "1"), exist_ok=True)
-    os.makedirs(os.path.join(folder_path, "1.3"), exist_ok=True)
+    os.makedirs(os.path.join(folder_path, "0.67"), exist_ok=True)
+    os.makedirs(os.path.join(folder_path, "0.71"), exist_ok=True)
+    os.makedirs(os.path.join(folder_path, "0.75"), exist_ok=True)
+    os.makedirs(os.path.join(folder_path, "0.8"), exist_ok=True)
+    os.makedirs(os.path.join(folder_path, "1.0"), exist_ok=True)
     os.makedirs(os.path.join(folder_path, "1.25"), exist_ok=True)
+    os.makedirs(os.path.join(folder_path, "1.3"), exist_ok=True)
     os.makedirs(os.path.join(folder_path, "1.4"), exist_ok=True)
     os.makedirs(os.path.join(folder_path, "1.5"), exist_ok=True)
 
