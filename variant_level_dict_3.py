@@ -17,12 +17,14 @@ from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 
 def upload_to_cloudinary(image_path, Cloudinaryfolder):
+    load_dotenv()
+
     cloudinary.config(
-    cloud_name = "djqvqmqe2",
-    api_key = "379169473671185",
-    api_secret = "HFgkfTbvvKlD0TGtXmQDLBFBDys",
-    secure = True
-)
+        cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"),
+        api_key = os.getenv("CLOUDINARY_API_KEY"),
+        api_secret = os.getenv("CLOUDINARY_API_SECRET"),
+        secure = os.getenv("CLOUDINARY_SECURE").lower() == "true"
+    )
     response = cloudinary.uploader.upload(image_path, folder=Cloudinaryfolder)
     public_id = response["public_id"]
     print(f"Uploaded image {public_id} to Cloudinary")
