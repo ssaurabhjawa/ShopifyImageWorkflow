@@ -6,9 +6,6 @@ from PIL import Image, ImageTk
 import csv
 import shutil
 from PIL import Image
-# import cloudinary
-# import cloudinary.uploader
-# import cloudinary.api
 import uuid
 import tkinter.simpledialog
 from dotenv import load_dotenv

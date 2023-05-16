@@ -148,7 +148,7 @@ def extract_file_info(file_path):
         option1_values, option1_prices = extract_option1Value_wallArt(file_info, product_type, orientation)
         artist_price = artist_royalty_dict.get(artist_name, 1)
         print(artist_price)
-        if "shutterstock" in file_info["vendor"].lower():
+        if "OBL Display SS" in file_info["vendor"].lower():
             shutterstock_price = 257.0
             option1_prices = [round(p + shutterstock_price, 2) for p in option1_prices]
         else:
