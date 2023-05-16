@@ -41,8 +41,6 @@ product_sizes = {
             {"size": "60x75cm", "ratio": 0.8, "price": 225},
             {"size": "40x50cm", "ratio": 0.8, "price": 100},
         ],
-    },
-    "canvas": {
         "Landscape": [
             {"size": "150x100cm", "ratio": 1.5, "price": 750},
             {"size": "120x80cm", "ratio": 1.5, "price": 480},
@@ -60,7 +58,13 @@ product_sizes = {
             {"size": "112x80cm", "ratio": 1.4, "price": 448},
             {"size": "84x60cm", "ratio": 1.4, "price": 252},
             {"size": "70x50cm", "ratio": 1.4, "price": 175}
-        ]
+        ],
+        "Square": [
+            {"size": "140x140cm", "ratio": 1, "price": 980},
+            {"size": "120x120cm", "ratio": 1, "price": 720},
+            {"size": "80x80cm", "ratio": 1, "price": 320},
+            {"size": "60x60cm", "ratio": 1, "price": 180},
+        ],
     },
     "Poster": {
         "Portrait": [
@@ -119,10 +123,10 @@ def extract_file_info(file_path):
     # Extract variables from file parts
     aspect_ratio = float(file_parts[0])
     uuid = file_parts[1]
-    product_type = file_parts[2]
+    product_type = file_parts[2].lower()
     title_var = file_parts[3]
     image_position_var = int(file_parts[4])
-    artist_name = os.path.splitext(file_parts[5])[0]
+    artist_name = os.path.splitext(file_parts[5])[0].lower()
 
     # Derive orientation from aspect ratio
     if aspect_ratio < 1:
@@ -147,8 +151,8 @@ def extract_file_info(file_path):
     if product_type.lower() in ["canvas", "poster", "acrylic", "wallpaper"]:
         option1_values, option1_prices = extract_option1Value_wallArt(file_info, product_type, orientation)
         artist_price = artist_royalty_dict.get(artist_name, 1)
-        print(artist_price)
-        if "OBL Display SS" in file_info["vendor"].lower():
+        if "obl display ss" in file_info["vendor"].lower().strip():
+            print("OBL Display SS_True")
             shutterstock_price = 257.0
             option1_prices = [round(p + shutterstock_price, 2) for p in option1_prices]
         else:
@@ -169,70 +173,23 @@ def extract_option1Value_wallArt(file_info, product_type, orientation):
         orientation = "Square"
 
     # Define the option values based on the product type and orientation
-    if product_type.lower() in ["canvas", "poster", "acrylic", "wallpaper"] and orientation in product_sizes[product_type.lower()]:
-        option1_values = []
-        option1_prices = []
-        for dimensions in product_sizes[product_type.lower()][orientation]:
-            option_aspect_ratio = dimensions['ratio']
-            # Check if the aspect ratio of the canvas size matches the aspect ratio of the image
-            if abs(aspect_ratio - option_aspect_ratio) < 0.00001:
-                option1_values.append(dimensions['size'])
-                option1_prices.append(dimensions['price'])
-    elif product_type.lower() in stationary and not orientation:
-        option1_values = []
-        option1_prices = []
-        for item in stationary[product_type.lower()]:
-            option1_values.append(item['size'])
-            option1_prices.append(item['price'])
-    else:
-        option1_values = []
-        option1_prices = []
+    option1_values = []
+    option1_prices = []
+    print(f"product_type: {product_type}")  # Add debug print statement
+    print(f"product_sizes[product_type]: {product_sizes[product_type]}")  # Add debug print statement
+    for dimensions in product_sizes[product_type][orientation]:
+        option_aspect_ratio = dimensions['ratio']
+        # Check if the aspect ratio of the canvas size matches the aspect ratio of the image
+        if abs(aspect_ratio - option_aspect_ratio) < 0.00001:
+            option1_values.append(dimensions['size'])
+            option1_prices.append(dimensions['price'])
 
     return option1_values, option1_prices
 
 
 
-# def extract_option1Value_wallArt(file_info, product_type, orientation):
-#     # Derive orientation from aspect ratio
-#     aspect_ratio = file_info['aspect_ratio']
-#     if aspect_ratio < 1:
-#         orientation = "Portrait"
-#     elif aspect_ratio > 1:
-#         orientation = "Landscape"
-#     else:
-#         orientation = "Square"
 
-#     # Define the option values based on the product type and orientation
-#     if product_type.lower() in ["canvas", "poster", "acrylic", "wallpaper"] and orientation in product_sizes[product_type.lower()]:
-#         option1_values = []
-#         option1_prices = []
-#         for dimensions in product_sizes[product_type.lower()][orientation]:
-#             option1_values.append(dimensions['size'])
-#             option1_prices.append(dimensions['price'])
-#     elif product_type.lower() == "canvas" and orientation in product_sizes[product_type.lower()]:
-#         option1_values = []
-#         option1_prices = []
-#         for dimensions in product_sizes[product_type.lower()][orientation]:
-#             size_parts = dimensions['size'].split('x')
-#             width_cm = float(size_parts[0])
-#             height_cm = float(size_parts[1])
-#             aspect_ratio_tolerance = dimensions['ratio'] * 0.01
-#             aspect_ratio_min = dimensions['ratio'] - aspect_ratio_tolerance
-#             aspect_ratio_max = dimensions['ratio'] + aspect_ratio_tolerance
-#             if abs(aspect_ratio - (width_cm / height_cm)) <= aspect_ratio_tolerance:
-#                 option1_values.append(dimensions['size'])
-#                 option1_prices.append(dimensions['price'])
-#     elif product_type.lower() in stationary and not orientation:
-#         option1_values = []
-#         option1_prices = []
-#         for item in stationary[product_type.lower()]:
-#             option1_values.append(item['size'])
-#             option1_prices.append(item['price'])
-#     else:
-#         option1_values = []
-#         option1_prices = []
 
-#     return option1_values, option1_prices
 
 
 def extract_price_stationary(file_info, product_type):
@@ -250,9 +207,10 @@ def extract_price_stationary(file_info, product_type):
 
 
 
-def test_extract_file_info():
-    file_path = "1.5--d2c9bf--canvas--Sunset--1--Artist 1.jpg"
-    actual_file_info = extract_file_info(file_path)
+# def test_extract_file_info():
+#     file_path = "0.67--1d5c0d--Canvas--Embracing Nature--2--OBL_Display_SS.jpg"
+#     actual_file_info = extract_file_info(file_path)
+#     print(actual_file_info)
 
-    
+# test_extract_file_info()
 

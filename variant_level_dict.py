@@ -42,13 +42,10 @@ def variant_level_dictionary(image_filename, output_folder_path, Cloudinaryfolde
     print(image_filename)
        # Check if image filename already exists in dictionary
     if image_filename in image_filename_dict:
-        print(image_filename)
-        print(True)
         # Retrieve public ID from dictionary and use it to generate the image URL
         public_id = image_filename_dict[image_filename]
         image_url = get_image_url_from_cloudinary(public_id)
     else:
-        print(False)
         # Upload image to Cloudinary and get public ID
         image_path = os.path.join(output_folder_path, image_filename)
         public_id = upload_to_cloudinary(image_path, Cloudinaryfolder)

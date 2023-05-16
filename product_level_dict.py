@@ -68,7 +68,7 @@ def product_level_dictionary(image_filename, output_folder_path, Cloudinaryfolde
         "Tags": "Miscellaneous",
         "Published": "TRUE",
         "Option1 Name": "Size",
-        "Option1 Value":option1_values[0],
+        "Option1 Value":option1_values[0] if option1_values else "",
         "Variant Inventory Qty":10,
         "Variant Inventory Policy": "deny",
         "Variant Fulfillment Service":"manual",

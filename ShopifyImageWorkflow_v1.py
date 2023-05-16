@@ -311,6 +311,15 @@ rename_button.grid(row=2, column=2, padx=5, pady=1, sticky="w")
 output_listbox = tk.Listbox(root, width=70,height=20)
 output_listbox.grid(row=0, column=3, padx=5, pady=1)
 
+
+
+
+#==================================================================
+#                           Update Image Position Output Listbox
+#==================================================================
+
+
+
 #==================================================================
 #                           Update Output Listbox
 #==================================================================
@@ -325,6 +334,10 @@ def update_output_listbox():
 # Create button to update the output listbox
 update_output_button = tk.Button(root, text="Update Output Listbox", command=update_output_listbox)
 update_output_button.grid(row=0, column=3, padx=5, pady=5, sticky="s")
+
+
+
+
 
 
 #==================================================================
@@ -344,6 +357,10 @@ def update_image_position():
     if not image_position:
         tk.messagebox.showerror("Error", "Please enter the image position number to rename.")
         return
+    
+    # Create a Listbox widget to display files
+    file_listbox = tk.Listbox(root)
+    file_listbox.grid(row=8, column=3, padx=5, pady=5)
 
     # Iterate through each file in the folder and rename it with updated image position number
     for file in os.listdir(folder_path):
@@ -367,18 +384,18 @@ def update_image_position():
             # Rename file
             os.rename(os.path.join(folder_path, file), os.path.join(output_folder_path, new_filename))
 
-    # Update image_listbox
-    image_listbox.delete(0, tk.END)
+
+    # Update file_listbox
     for file in os.listdir(folder_path):
-        if file.endswith((".jpg", ".jpeg", ".png")):
-            image_listbox.insert(tk.END, file)
+        file_listbox.insert(tk.END, file)
     
     tk.messagebox.showinfo("Success", f"All files in {folder_path} have been renamed with image position {image_position}.")
 
 
+
 # Create the "Update Image Position" button
 update_position_button = tk.Button(root, text="Update Image Position", command=update_image_position)
-update_position_button.grid(row=3, column=3, padx=5, pady=5)
+update_position_button.grid(row=7, column=3, padx=5, pady=5)
 
 
 #==================================================================
@@ -442,8 +459,6 @@ def process_image():
                 file_info = extract_file_info(filename)
                 option1_values = file_info["option1_values"][1:]
                 option1_prices = file_info["option1_prices"][1:]
-                print(option1_values)
-                print(option1_prices)
                 for i, option in enumerate(option1_values, start=1):
                     image_dict = variant_level_dictionary(filename, output_folder_path, Cloudinaryfolder, option1_values[i-1], option1_prices[i-1], image_filename_dict)
                     image_list.append(image_dict)
@@ -465,7 +480,7 @@ def process_images():
 
 
 process_button = tk.Button(root, text="Process Images", command=process_images)
-process_button.grid(row=6, column=3, padx=10, pady=10)
+process_button.grid(row=8, column=3, padx=10, pady=10)
 
 
 
